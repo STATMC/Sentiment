@@ -1,0 +1,60 @@
+---------------------------------------------------------------------------
+KeyError                                  Traceback (most recent call last)
+File ~/.local/lib/python3.8/site-packages/pandas/core/indexes/base.py:3629, in Index.get_loc(self, key, method, tolerance)
+   3628 try:
+-> 3629     return self._engine.get_loc(casted_key)
+   3630 except KeyError as err:
+
+File ~/.local/lib/python3.8/site-packages/pandas/_libs/index.pyx:136, in pandas._libs.index.IndexEngine.get_loc()
+
+File ~/.local/lib/python3.8/site-packages/pandas/_libs/index.pyx:163, in pandas._libs.index.IndexEngine.get_loc()
+
+File pandas/_libs/hashtable_class_helper.pxi:2131, in pandas._libs.hashtable.Int64HashTable.get_item()
+
+File pandas/_libs/hashtable_class_helper.pxi:2140, in pandas._libs.hashtable.Int64HashTable.get_item()
+
+KeyError: 0
+
+The above exception was the direct cause of the following exception:
+
+KeyError                                  Traceback (most recent call last)
+Cell In[35], line 11
+      8 single_news_df = pd.DataFrame([row], columns=a.columns)
+     10 # Bu tek haber için duygu analizi yap
+---> 11 sentiment_df = historicalSentiment(single_news_df)
+     13 # Analiz sonuçlarını `a` DataFrame'ine kaydet
+     14 if not sentiment_df.empty:
+
+Cell In[32], line 228, in historicalSentiment(df)
+    226 ticker_count = 0
+    227 for i in range(len(df)):
+--> 228     sentenceList = split_into_sentences(df.alltext[i])
+    229     for sentence in sentenceList:
+    230         sentence_count = sentence_count + 1 
+
+File ~/.local/lib/python3.8/site-packages/pandas/core/series.py:958, in Series.__getitem__(self, key)
+    955     return self._values[key]
+    957 elif key_is_scalar:
+--> 958     return self._get_value(key)
+    960 if is_hashable(key):
+    961     # Otherwise index.get_value will raise InvalidIndexError
+    962     try:
+    963         # For labels that don't resolve as scalars like tuples and frozensets
+
+File ~/.local/lib/python3.8/site-packages/pandas/core/series.py:1069, in Series._get_value(self, label, takeable)
+   1066     return self._values[label]
+   1068 # Similar to Index.get_value, but we do not fall back to positional
+-> 1069 loc = self.index.get_loc(label)
+   1070 return self.index._get_values_for_loc(self, loc, label)
+
+File ~/.local/lib/python3.8/site-packages/pandas/core/indexes/base.py:3631, in Index.get_loc(self, key, method, tolerance)
+   3629     return self._engine.get_loc(casted_key)
+   3630 except KeyError as err:
+-> 3631     raise KeyError(key) from err
+   3632 except TypeError:
+   3633     # If we have a listlike key, _check_indexing_error will raise
+   3634     #  InvalidIndexError. Otherwise we fall through and re-raise
+   3635     #  the TypeError.
+   3636     self._check_indexing_error(key)
+
+KeyError: 0
